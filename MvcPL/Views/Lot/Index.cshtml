@@ -1,0 +1,36 @@
+﻿@model MvcPL.ViewModels.LotsListViewModel
+@{
+    ViewBag.Title = "Index";
+}
+@section styles {
+@Styles.Render("~/Content/Index.css")
+}
+@section Carousel {
+<div class="row">
+
+    @Html.Action("Carousel", "Nav")
+
+</div>
+}
+@foreach (var lot in Model.Lots)
+{
+    @Html.Partial("_LotSummary", lot)
+}
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory, searchString = Model.CurrentSearchString }))
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    $(function () {
+        function resizeImg() {
+            for (var i = 0; i < document.querySelectorAll('.js-resize-img').length; i++) {
+                var item = document.querySelectorAll('.js-resize-img')[i];
+                item.style.height = item.offsetWidth + 'px';
+            }
+        }
+        resizeImg();
+        window.onresize = resizeImg;
+    });
+</script>
+}

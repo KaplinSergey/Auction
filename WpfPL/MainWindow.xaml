@@ -1,0 +1,28 @@
+﻿<Window x:Class="WpfPL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:databinding="clr-namespace:WpfPL.DataBinding.Converters"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <databinding:ImageConverter x:Key="ImageConverter"></databinding:ImageConverter>
+        <DataTemplate x:Key="LotsDataTemplate">
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="370">
+                <Grid Margin="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.RowSpan="2" Width="100" Height="75" Margin="6"
+                           Source="{Binding Path=ImageData, Converter={StaticResource ImageConverter}}"/>
+                    <StackPanel Grid.Column="1" Margin="2,6">
+                        <TextBlock FontWeight="Bold" Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Description}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ListBox Name="LotsList" Margin="5" ItemTemplate="{StaticResource LotsDataTemplate}"/>
+    </Grid>
+</Window>

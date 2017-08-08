@@ -1,0 +1,105 @@
+﻿@model MvcPL.ViewModels.LotViewModel
+
+@using (Html.BeginForm("Edit", "Lot", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Edit your lot</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.UserId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartPrice, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.StartPrice, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StartPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Duration, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.State, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.State, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Categories</label>
+            <div class="col-md-10">
+                @Html.DropDownList("categoryId", (SelectList)ViewBag.CategoriesList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <label>Image</label>
+            </div>
+            <div class="col-md-10">
+                <a class='btn btn-default' href='javascript:;'>
+                    Select the file...
+                    <input type="file" name="Image" size="40" style="position:absolute;z-index:2;top:0; left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                           onchange='$("#upload-file-info").html($(this).val());'>
+                </a>
+                <span class='label label-info' id="upload-file-info"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.ImageData == null)
+                {
+                    <div class="form-control-static">No pictures</div>
+                }
+                else
+                {
+                    <img class="img-thumbnail" width="150" height="150" src="@Url.Action("GetImage", "Lot", new { Model.Id })" />
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+@section scripts {
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        if (!Modernizr.inputtypes.date) {
+            $(function () {
+                $("input[type='date']")
+                    .datepicker({ dateFormat: 'dd/mm/yy' })
+                    .get(0).setAttribute("type", "text");
+            });
+        }
+    });
+</script>
+}

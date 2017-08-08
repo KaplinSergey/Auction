@@ -1,0 +1,18 @@
+﻿@model MvcPL.ViewModels.LotViewModel
+
+
+<div class="col-sm-4 col-lg-4 col-md-4">
+    <div class="thumbnail">
+        @if (Model.ImageData != null)
+{   
+      <div class="background-square-img js-resize-img" style="background-image: url('@Url.Action("GetImage", "Lot", new {id=Model.Id})')"></div>      
+}
+        <div class="caption">
+            <h4 class="pull-right">@Model.CurrentPrice byn</h4>
+            <h4>
+                @Html.ActionLink(Model.Name, "LotDetails", "Lot", new { id = Model.Id }, null)
+            </h4>
+            <h5>Time until end: @Model.TimeUntilEnd.ToString(@"dd\:hh\:mm")</h5>
+        </div>
+    </div>
+</div>

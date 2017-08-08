@@ -1,0 +1,50 @@
+﻿.sidebar {
+            margin-top: 1px !important;
+        }
+
+        .btn-search {
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            right: 16px;
+            top: 2px;
+        }
+
+        .relative {
+            position: relative !important;
+        }
+
+        .sidebar-search {
+            padding: 0 !important;
+        }
+
+        .sidebar-search form, .sidebar-search .form-group, .sidebar-search input {
+            width: 100% !important;
+        }
+
+        .navbar-right {
+            margin-right: 15px !important;
+            line-height: 50px;
+        }
+
+        #page-wrapper {
+            min-height: inherit;
+            height: auto;
+            margin: -20px 0 0 250px;
+            padding: 15px 15px 0 15px;
+        }
+
+        @media screen and (max-width: 768px) {
+            #page-wrapper {
+                margin: 0;
+            }
+
+            .navbar-form {
+                margin: 0;
+                border: none;
+            }
+
+            .btn-search {
+                top: 11px;
+            }
+        }

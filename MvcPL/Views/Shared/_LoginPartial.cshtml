@@ -1,0 +1,36 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a href='@Url.Action("AdminPanel", "Admin")'>
+                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                </a>
+            </li>
+        }
+        else if (User.IsInRole("User"))
+        {   
+            <li><h5>@User.Identity.Name</h5></li>
+            <li><a href='@Url.Action("UserPanel", "User")' >
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </a>
+            </li>
+        }
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @class = "navbar-right logIn navbar-logoff" }))
+        {
+            @Html.AntiForgeryToken()
+            <li>
+                <div class="form-group">
+                    <input type="submit" value="Log off" class="btn btn-link btn-logIn" />
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-link btn-logIn" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account",null , new { @class = "btn btn-link btn-logIn" })</li>
+    </ul>
+}

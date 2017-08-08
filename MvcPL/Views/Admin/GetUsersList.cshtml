@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MvcPL.ViewModels.UserInfoViewModel>
+@{
+    ViewBag.Title = "GetUsersList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (Model.Count() != 0)
+{
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Number of for sale lots</th>
+            <th>Number of sold lots</th>
+            <th>Number of unsold lots</th>
+            <th>Number of bids</th>
+            <th>Number of purchases</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+{
+    <tr>
+        <td>@user.Id</td>
+        <td>@user.Name</td>
+        <td>@user.Email</td>
+        <td>@Html.ActionLink(user.NumberOfForSaleLots.ToString(), "GetLotsList", "User", new { state = "For sale", userId = user.Id, isPartial = true }, new { @class = "viewDialog", data_dialog_title = "Lots List" })</td>
+        <td>@Html.ActionLink(user.NumberOfSoldLots.ToString(), "GetLotsList", "User", new { state = "Sold", userId = user.Id, isPartial = true }, new { @class = "viewDialog", data_dialog_title = "Lots List" })</td>
+        <td>@Html.ActionLink(user.NumberOfUnsoldLots.ToString(), "GetLotsList", "User", new { state = "Unsold", userId = user.Id, isPartial = true }, new { @class = "viewDialog", data_dialog_title = "Lots List" })</td>
+        <td>@Html.ActionLink(user.NumberOfBids.ToString(), "GetBidsList", "User", new { state = "All", userId = user.Id, isPartial = true }, new { @class = "viewDialog", data_dialog_title = "Lots List" })</td>
+        <td>@Html.ActionLink(user.NumberOfPurchases.ToString(), "GetPurchasesList", "User", new { id = user.Id, isPartial = true }, new { @class = "viewDialog", data_dialog_title = "Lots List" })</td>
+        <th>@Html.ActionLink("Edit", "Edit", "User", new { userId = user.Id }, new { @class = "btn btn-warning" })</th>
+        <th>@Html.ActionLink("Delete", "Delete", "User", new { userId = user.Id }, new { @class = "btn btn-danger" })</th>
+    </tr>
+}
+    </tbody>
+</table>
+}
+@section scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajaxSetup({ cache: false });
+        $(".viewDialog").on("click", function (e) {
+            e.preventDefault();
+            $("<div></div>")
+                .addClass("dialog")
+                .appendTo("body")
+                .dialog({
+                    title: $(this).attr("data-dialog-title"),
+                    close: function () { $(this).remove() },
+                    width: 'auto',
+                    height: 'auto',
+                    modal: true
+                })
+                .load(this.href);
+        });
+        $(".close").on("click", function (e) {
+            e.preventDefault();
+            $(this).closest(".dialog").dialog("close");
+        });
+    });
+</script>    
+}

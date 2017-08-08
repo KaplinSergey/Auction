@@ -1,0 +1,41 @@
+﻿.navbar-default .navbar-nav > li > a {
+            font-size: 13px;
+        }        
+        .img-auction-logo {
+            display: inline-block;
+            max-width: 100%;
+            height: 50px;
+            padding: 4px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+        }
+        .navbar-logoff {
+            line-height: 50px;
+        }
+
+        .btn-logIn:hover {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .btn-logIn {
+            text-decoration: none;
+            color: #777;
+        }
+
+        .btn-search {
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            right: 16px;
+            top: 2px;
+        }
+
+        .relative {
+            position: relative;
+        }

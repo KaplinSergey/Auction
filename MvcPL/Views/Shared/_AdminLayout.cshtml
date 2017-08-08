@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/ContentAdmin/css")
+    @RenderSection("styles", required: false)    
+    @Styles.Render("~/Content/themes/base/jquery-ui.css")
+    @Styles.Render("~/Content/autocompleteBringToFront.css")
+    @Styles.Render("~/Content/AdminLayout.css")
+    @Scripts.Render("~/bundles/modernizr")
+   
+</head>
+<body>
+    <div class="container">
+        
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img class="img-thumbnail" width="200" height="100" src="@Url.Content("~/Content/images/logo.jpg")" />
+            </div>
+            <!-- /.navbar-header -->
+
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.Action("AdminNavBar", "Nav")
+            }
+            else
+            {
+                @Html.Action("UserNavBar", "Nav") 
+            }           
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.Action("AdminSideBar", "Nav")
+                    }
+                    else
+                    {
+                        @Html.Action("UserSideBar", "Nav")
+                    }
+            </div>
+        </nav>
+
+        <div id="page-wrapper" style="min-height: 562px;">
+
+            @RenderBody()
+
+        </div>
+    </div>
+
+    <div class="container">
+        <hr>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Epam Asp.Net Mvc Training. Website developed by Kaplin Sergey</p>
+        </footer>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @if (User.IsInRole("Admin"))
+    {
+        <script type="text/javascript">
+        $(function () {
+        var autocompleteUrl = '@Url.Action("AutocompleteAllLots", "Nav")';
+        $("input#search").autocomplete({
+        source: autocompleteUrl,
+        minLength: 2,
+        select: function (event, ui) {
+        $(this).val(ui.item.value);
+        $("#findBtn").click();
+        }
+        });
+        });
+    </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+        $(function () {
+            var autocompleteUrl = '@Url.Action("AutocompleteForUser","Nav")';
+            $("input#search").autocomplete({
+                source: autocompleteUrl,
+                minLength: 2,
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    $("#findBtn").click();
+                }
+            });
+        });
+    </script>
+    }
+</body>
+</html>

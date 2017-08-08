@@ -1,0 +1,45 @@
+﻿@model MvcPL.ViewModels.StatisticsViewModel
+@{
+    ViewBag.Title = "AdminPanel";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>@ViewBag.TimeSpan</h2>
+<div class="row">
+    <div class="col-lg-3 col-md-3">
+        <img src='@Url.Action("GetChart", new { span = ViewBag.TimeSpan, state="All" })' alt="Chart" />
+    </div>
+    <div class="col-lg-3 col-md-3">
+        <img src='@Url.Action("GetChart", new { span = ViewBag.TimeSpan, state="ForSale" })' alt="Chart" />
+    </div>
+    <div class="col-lg-3 col-md-3">
+        <img src='@Url.Action("GetChart", new { span = ViewBag.TimeSpan, state="Sold" })' alt="Chart" />
+    </div>
+    <div class="col-lg-3 col-md-3">
+        <img src='@Url.Action("GetChart", new { span = ViewBag.TimeSpan, state="Unsold" })' alt="Chart" />
+    </div>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total number of lots</th>
+                <th>Number of lots for sale</th>
+                <th>Number of lots sold</th>
+                <th>Number of unsold lots</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Categories.Count; i++)
+            {
+                <tr>
+                    <th>@Model.Categories[i]</th>
+                    <th>@Model.TotalNumberOfLots[i]</th>
+                    <th>@Model.NumberOfForSaleLots[i]</th>
+                    <th>@Model.NumberOfSoldLots[i]</th>
+                    <th>@Model.NumberOfUnsoldLots[i]</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

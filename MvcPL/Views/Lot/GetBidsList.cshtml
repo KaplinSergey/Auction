@@ -1,0 +1,40 @@
+﻿@model MvcPL.ViewModels.BidListViewModel
+<div id="bidsList">
+    @using (Ajax.BeginForm("GetBidsList", "Lot", new AjaxOptions { UpdateTargetId = "bidsList", OnSuccess = "PostSuccess" }, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(b => b.LotId)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(b => b.Price, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.Price, null, new { @class = "text-danger" })
+    </div>
+        <div class="form-group">
+                <button type="submit" class="btn btn-success">
+                Add Bid
+                </button>
+        </div>
+    if (Model.Bids.Count() != 0)
+        { 
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Bid</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bid in Model.Bids)
+                {
+                    <tr>
+                        <td>@bid.UserName</td>
+                        <td>@bid.Price</td>
+                        <td>@bid.Date</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        }
+    }
+</div>

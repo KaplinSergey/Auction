@@ -1,0 +1,36 @@
+﻿@model MvcPL.ViewModels.LotViewModel
+
+    <div class="row panel">
+        @if (Model.ImageData != null)
+        {
+            <div class="pull-left" style="margin-right: 10px">
+                <img class="img-thumbnail" width="400" height="400" src="@Url.Action("GetImage", "Lot", new {id=Model.Id})" />
+            </div>
+        }
+        @Html.HiddenFor(m => m.Id, new { lotId = Model.Id })
+        <h3>Name: @Model.Name</h3><br /> 
+        <h3>Description: @Model.Description</h3>
+        <h3>Owner: @Model.OwnerName</h3>
+        <h3>Current price: @Model.CurrentPrice</h3>
+        <h3>Time until end: @Model.TimeUntilEnd.ToString(@"dd\:hh\:mm")</h3>
+    </div>
+
+    <div class="row panel" id="bids">
+        <span class="lead">@Html.Action("GetBidsList", new { lotId = Model.Id})</span>
+    </div>
+
+    <div class="row panel" id="comments">
+    <span class="lead">@Html.Action("GetCommentsList", new { lotId = Model.Id })</span>
+    </div>
+    
+@section scripts {
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    function PostSuccess(result) {
+        if (result.redirectTo) {
+            window.location.href = result.redirectTo + "?returnUrl=/Lot/LotDetails?Id=" + $("#Id").val();
+        }
+    }
+</script>
+}
+

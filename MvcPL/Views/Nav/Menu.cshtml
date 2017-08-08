@@ -1,0 +1,15 @@
+﻿@model IEnumerable<string>
+
+@foreach (string item in Model)
+{   <li>
+        @Html.RouteLink(item,
+        new
+        {
+            controller = "Lot",
+            action = "Index",
+            category = item,
+            page = 1
+        }
+    )
+    </li>
+}

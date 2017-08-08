@@ -1,0 +1,21 @@
+﻿<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            @Html.ActionLink("Home", "Index", "Lot")
+        </li>
+        <li class="dropdown">
+            @Html.ActionLink("Edit Account", "Edit", "User")
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @class = "logIn navbar-logoff" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input type="submit" value="Log off" class="btn btn-link btn-logIn" />
+                </div>
+            }
+        </li>
+    </ul>
+</div>
