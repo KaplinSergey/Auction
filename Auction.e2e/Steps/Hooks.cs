@@ -55,7 +55,7 @@ namespace Auction.e2e.Steps
 
         private string GetApplicationPath(string applicationName)
         {
-            var solutionFolder = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)));
+            var solutionFolder = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory))));
             return Path.Combine(solutionFolder, applicationName);
         }
     }

@@ -10,29 +10,65 @@ using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
 using System.Diagnostics;
 using System.Configuration;
+using Auction.e2e.Pages.Login;
+using Auction.e2e.Pages.Lots;
 
 namespace Auction.e2e.Steps.Common
 {
     [Binding]
-    class CommonSteps: TechTalk.SpecFlow.Steps
+    class CommonSteps : TechTalk.SpecFlow.Steps
     {
-        private readonly string _applicationName;
-        private readonly int iisPort;
+        private static bool _isFirstLogin = true;
+        private static readonly object FirstLoginLockObject = new object();
 
-        public CommonSteps()
+        [Given(@"I am logged in as ""(.*)"" in Auction")]
+        public void GivenIAmLoggedInAsInAuction(string userName)
         {
-            int.TryParse(ConfigurationManager.AppSettings["iisPort"], out iisPort);
-            _applicationName = "MvcPL";
-        }
+            var browser = DriverFactory.New();
 
-        public string GetAbsoluteUrl(string relativeUrl)
-        {
-            if (!relativeUrl.StartsWith("/"))
+            this.ScenarioContext.Set(browser, "browser");
+
+            browser.Navigate().GoToUrl("http://localhost:37447/Account/Login");
+
+            var loginPage = new LoginPage(browser)
             {
-                relativeUrl = "/" + relativeUrl;
+                UserName = "s.k.85@tut.by",
+                Password = "12345678"
+            };
+
+            var loginButtonClicked = false;
+            lock (FirstLoginLockObject)
+            {
+                if (_isFirstLogin)
+                {
+                    loginPage.Login();
+                    loginButtonClicked = true;
+
+                    _isFirstLogin = false;
+                }
             }
-            return String.Format("http://localhost:{0}{1}", iisPort, relativeUrl);
+
+            if (!loginButtonClicked)
+            {
+                loginPage.Login();
+            }
+
+            var newPage = new LotsPage(browser);
+            newPage.WaitSpinner();
+
+            this.ScenarioContext.Set(newPage, "page");
         }
 
+        [When(@"I visit ""(.*)""")]
+        public void WhenIVisit(string url)
+        {
+            var browser = this.ScenarioContext.Get<IWebDriver>("browser");
+            browser.Navigate().GoToUrl("http://localhost:37447/" + url);
+
+            var newPage = this.ScenarioContext.Get<LotsPage>("page");
+            //var newPage = PageFinder.Find(browser, url);
+            newPage.WaitSpinner();
+            this.ScenarioContext.Set(newPage, "page");
+        }
     }
 }
